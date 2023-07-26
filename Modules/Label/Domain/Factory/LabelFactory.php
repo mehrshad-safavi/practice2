@@ -26,7 +26,17 @@ class LabelFactory
         $label->setId($id);
         $label->setTitle($title);
         $label->setColor($color);
-        $label->setStatus(LabelStatusEnum::ACTIVE);
+        $label->setStatus(LabelStatusEnum::tryFrom($status));
+        $label->setCreatedAt($createdAt);
+        $label->setUpdatedAt($updatedAt);
+
+        return $label;
+    }
+
+    public static function updateModel(Label $label, string $title, ?string $color): Label
+    {
+        $label->setTitle($title);
+        $label->setColor($color);
 
         return $label;
     }

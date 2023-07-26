@@ -15,9 +15,9 @@ class LabelValidation
         }
     }
 
-    public function checkUniqueLabel(?Label $label): void
+    public function checkUniqueLabel(?Label $label, ?int $id = null): void
     {
-        if ($label) {
+        if (!($id ? ($label == null || $label->getId() == $id) : $label == null)) {
             throw new DomainException("duplicate");
         }
     }

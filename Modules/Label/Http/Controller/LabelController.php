@@ -13,22 +13,32 @@ use Modules\Label\Domain\Usecase\GetAllLabels\IGetAllLabelsUsecase;
 use Modules\Label\Domain\Usecase\GetById\GetByIdInputModel;
 use Modules\Label\Domain\Usecase\GetById\GetByIdUsecase;
 use Modules\Label\Domain\Usecase\GetById\IGetByIdUsecase;
+use Modules\Label\Domain\Usecase\UpdateLabel\IUpdateLabelUsecase;
+use Modules\Label\Domain\Usecase\UpdateLabel\UpdateLabelInputModel;
+use Modules\Label\Domain\Usecase\UpdateLabel\UpdateLabelUsecase;
 use Modules\Label\Http\Request\CreateLabelRequest;
+use Modules\Label\Http\Request\UpdateLabelRequest;
 use Modules\Label\Http\ViewModelMapper\CreateLabelViewModelMapper;
 use Modules\Label\Http\ViewModelMapper\GetAllLabelsViewModelMapper;
 use Modules\Label\Http\ViewModelMapper\GetByIdViewModelMapper;
+use Modules\Label\Http\ViewModelMapper\UpdateLabelViewModelMapper;
 
 class LabelController extends Controller
 {
     private ICreateLabelUsecase $createLabelUsecase;
     private IGetByIdUsecase $getByIdUsecase;
     private IGetAllLabelsUsecase $getAllLabelsUsecase;
+    private IUpdateLabelUsecase $updateLabelUsecase;
 
-    public function __construct(CreateLabelUsecase $createLabelUsecase, GetByIdUsecase $getByIdUsecase, GetAllLabelsUsecase $getAllLabelsUsecase)
+    public function __construct(CreateLabelUsecase  $createLabelUsecase,
+                                GetByIdUsecase      $getByIdUsecase,
+                                GetAllLabelsUsecase $getAllLabelsUsecase,
+                                UpdateLabelUsecase  $updateLabelUsecase)
     {
         $this->createLabelUsecase = $createLabelUsecase;
         $this->getByIdUsecase = $getByIdUsecase;
         $this->getAllLabelsUsecase = $getAllLabelsUsecase;
+        $this->updateLabelUsecase = $updateLabelUsecase;
     }
 
     public function createLabel(CreateLabelRequest $request): JsonResponse
@@ -53,5 +63,14 @@ class LabelController extends Controller
         $outputModel = $this->getAllLabelsUsecase->execute();
 
         return response()->json(GetAllLabelsViewModelMapper::prepareViewModel($outputModel));
+    }
+
+    public function updateLabel(UpdateLabelRequest $request): JsonResponse
+    {
+        $dto = $request->Data();
+        $inputModel = new UpdateLabelInputModel($request->route('id'), $dto->title, $dto->color);
+        $outputModel = $this->updateLabelUsecase->execute($inputModel);
+
+        return response()->json(UpdateLabelViewModelMapper::prepareViewModel($outputModel));
     }
 }
