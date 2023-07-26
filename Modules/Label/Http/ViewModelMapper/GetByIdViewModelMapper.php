@@ -9,11 +9,7 @@ class GetByIdViewModelMapper
 {
     public static function prepareViewModel(CreateLabelOutputModel $outputModel): LabelViewModel
     {
-        return new LabelViewModel(
-            $outputModel->label->getId(),
-            $outputModel->label->getTitle(),
-            $outputModel->label->getColor(),
-            $outputModel->label->getStatus()->value,
-        );
+        return LabelViewModelMapper::prepareViewModel($outputModel->label);
+
     }
 }

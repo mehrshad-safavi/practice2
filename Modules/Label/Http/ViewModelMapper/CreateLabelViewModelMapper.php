@@ -7,13 +7,8 @@ use Modules\Label\Http\ViewModel\LabelViewModel;
 
 class CreateLabelViewModelMapper
 {
-    public static function prepareViewModel(CreateLabelOutputModel $outPutModel): LabelViewModel
+    public static function prepareViewModel(CreateLabelOutputModel $outputModel): LabelViewModel
     {
-        return new LabelViewModel(
-            $outPutModel->label->getId(),
-            $outPutModel->label->getTitle(),
-            $outPutModel->label->getColor(),
-            $outPutModel->label->getStatus()->value,
-        );
+        return LabelViewModelMapper::prepareViewModel($outputModel->label);
     }
 }

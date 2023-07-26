@@ -10,15 +10,6 @@ class GetAllLabelsViewModelMapper
     /** @return LabelViewModel[] */
     public static function prepareViewModel(GetAllLabelsOutputModel $outputModel): array
     {
-        $labels = [];
-        foreach($outputModel->labels as $label){
-            $labels[] = new LabelViewModel(
-                $label->getId(),
-                $label->getTitle(),
-                $label->getColor(),
-                $label->getStatus()->value,
-            );
-        }
-        return $labels;
+        return LabelViewModelMapper::prepareViewModels($outputModel->labels);
     }
 }
