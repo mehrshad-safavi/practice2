@@ -3,15 +3,15 @@
 namespace Modules\Label\Domain\Validation;
 
 use DomainException;
-use http\Exception;
 use Modules\Label\Domain\Model\Label;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class LabelValidation
 {
     public function checkExists(?Label $label): void
     {
         if (!$label) {
-            throw new DomainException("No exists");
+            throw new NotFoundHttpException("not found!");
         }
     }
 
