@@ -2,6 +2,7 @@
 
 namespace Modules\Label\Domain\Usecase\UpdateLabel;
 
+use Illuminate\Validation\ValidationException;
 use Modules\Label\Database\Persistence\LabelPersistence;
 use Modules\Label\Domain\Factory\LabelFactory;
 use Modules\Label\Domain\Persistence\ILabelPersistence;
@@ -18,13 +19,15 @@ class UpdateLabelUsecase implements IUpdateLabelUsecase
         $this->labelValidation = $labelValidation;
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function execute(UpdateLabelInputModel $inputModel): UpdateLabelOutputModel
     {
         $originalLabel = $this->labelPersistence->findById($inputModel->id);
         $this->labelValidation->checkExists($originalLabel);
 
-        $label = $this->labelPersistence->findByTitle($inputModel->title);
-        $this->labelValidation->checkUniqueLabel($label, $inputModel->id);
+        $this->labelValidation->checkUniqueLabel($inputModel->title, $inputModel->id);
 
         $originalLabel = LabelFactory::updateModel($originalLabel, $inputModel->title, $inputModel->color);
         $originalLabel = $this->labelPersistence->store($originalLabel);

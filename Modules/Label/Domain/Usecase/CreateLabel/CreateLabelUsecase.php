@@ -2,6 +2,7 @@
 
 namespace Modules\Label\Domain\Usecase\CreateLabel;
 
+use Illuminate\Validation\ValidationException;
 use Modules\Label\Database\Persistence\LabelPersistence;
 use Modules\Label\Domain\Factory\LabelFactory;
 use Modules\Label\Domain\Persistence\ILabelPersistence;
@@ -18,10 +19,12 @@ class CreateLabelUsecase implements ICreateLabelUsecase
         $this->labelValidation = $labelValidation;
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function execute(CreateLabelInputModel $inputModel): CreateLabelOutputModel
     {
-        $label = $this->labelPersistence->findByTitle($inputModel->title);
-        $this->labelValidation->checkUniqueLabel($label);
+        $this->labelValidation->checkUniqueLabel($inputModel->title);
 
         $label = LabelFactory::makeNewModel($inputModel->title, $inputModel->color);
         $label = $this->labelPersistence->store($label);

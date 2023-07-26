@@ -2,12 +2,21 @@
 
 namespace Modules\Label\Domain\Validation;
 
-use DomainException;
+use App\Validations\InputDataValidation;
+use Illuminate\Validation\ValidationException;
 use Modules\Label\Domain\Model\Label;
+use Modules\Label\Domain\Rule\UniqueLabelTitleRule;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class LabelValidation
 {
+    private UniqueLabelTitleRule $uniqueLabelTitleRule;
+
+    public function __construct(UniqueLabelTitleRule $uniqueLabelTitleRule)
+    {
+        $this->uniqueLabelTitleRule = $uniqueLabelTitleRule;
+    }
+
     public function checkExists(?Label $label): void
     {
         if (!$label) {
@@ -15,10 +24,12 @@ class LabelValidation
         }
     }
 
-    public function checkUniqueLabel(?Label $label, ?int $id = null): void
+    /**
+     * @throws ValidationException
+     */
+    public function checkUniqueLabel(string $title, ?int $id = null): void
     {
-        if (!($id ? ($label == null || $label->getId() == $id) : $label == null)) {
-            throw new DomainException("duplicate");
-        }
+        $this->uniqueLabelTitleRule->setId($id);
+        InputDataValidation::validate('title', $title, [$this->uniqueLabelTitleRule]);
     }
 }
