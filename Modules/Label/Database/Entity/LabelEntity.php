@@ -5,7 +5,6 @@ namespace Modules\Label\Database\Entity;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Label\Domain\Model\LabelStatusEnum;
 
 /**
  * @mixin Builder
