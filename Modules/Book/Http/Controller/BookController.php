@@ -8,22 +8,28 @@ use Illuminate\Http\Request;
 use Modules\Book\Domain\Usecase\CreateBook\CreateBookInputModel;
 use Modules\Book\Domain\Usecase\CreateBook\CreateBookUsecase;
 use Modules\Book\Domain\Usecase\CreateBook\ICreateBookUsecase;
+use Modules\Book\Domain\Usecase\GetAllBooks\GetAllBooksUsecase;
+use Modules\Book\Domain\Usecase\GetAllBooks\IGetAllBooksUsecase;
 use Modules\Book\Domain\Usecase\GetById\GetBookByIdInputModel;
 use Modules\Book\Domain\Usecase\GetById\GetBookByIdUsecase;
 use Modules\Book\Domain\Usecase\GetById\IGetBookByIdUsecase;
 use Modules\Book\Http\Request\CreateBookRequest;
 use Modules\Book\Http\ViewModelMapper\CreateBookViewModelMapper;
+use Modules\Book\Http\ViewModelMapper\GetAllBooksViewModelMapper;
 use Modules\Book\Http\ViewModelMapper\GetBookByIdViewModelMapper;
 
 class BookController extends Controller
 {
     private ICreateBookUsecase $createBookUsecase;
     private IGetBookByIdUsecase $getBookByIdUsecase;
+    private IGetAllBooksUsecase $getAllBooksUsecase;
 
-    public function __construct(CreateBookUsecase $createBookUsecase, GetBookByIdUsecase $getBookByIdUsecase)
+    public function __construct(CreateBookUsecase $createBookUsecase, GetBookByIdUsecase $getBookByIdUsecase,
+                                GetAllBooksUsecase $getAllBooksUsecase )
     {
         $this->createBookUsecase = $createBookUsecase;
         $this->getBookByIdUsecase = $getBookByIdUsecase;
+        $this->getAllBooksUsecase = $getAllBooksUsecase;
     }
 
     public function createBook(CreateBookRequest $request): JsonResponse
@@ -42,20 +48,20 @@ class BookController extends Controller
 
         return response()->json(GetBookByIdViewModelMapper::prepareViewModel($outputModel));
     }
-//
-//    public function getAll(Request $request): JsonResponse
-//    {
-//        $outputModel = $this->getAllLabelsUsecase->execute();
-//
-//        return response()->json(GetAllLabelsViewModelMapper::prepareViewModel($outputModel));
-//    }
-//
-//    public function updateLabel(UpdateLabelRequest $request): JsonResponse
+
+    public function getAll(Request $request): JsonResponse
+    {
+        $outputModel = $this->getAllBooksUsecase->execute();
+
+        return response()->json(GetAllBooksViewModelMapper::prepareViewModel($outputModel));
+    }
+
+//    public function updateBook(UpdateBookRequest $request): JsonResponse
 //    {
 //        $dto = $request->Data();
-//        $inputModel = new UpdateLabelInputModel($request->route('id'), $dto->title, $dto->color);
-//        $outputModel = $this->updateLabelUsecase->execute($inputModel);
+//        $inputModel = new UpdateBookInputModel($request->route('id'), $dto->title, $dto->color);
+//        $outputModel = $this->updateBookUsecase->execute($inputModel);
 //
-//        return response()->json(UpdateLabelViewModelMapper::prepareViewModel($outputModel));
+//        return response()->json(UpdateBookViewModelMapper::prepareViewModel($outputModel));
 //    }
 }

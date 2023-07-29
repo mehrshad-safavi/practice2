@@ -18,15 +18,15 @@ class BookViewModelMapper
     }
 
     /**
-     * @param Book[] $labels
+     * @param Book[] $books
      * @return BookViewModel[]
      */
-    public static function prepareViewModels(array $labels): array
+    public static function prepareViewModels(array $books): array
     {
-        $labelViewModels = [];
-        foreach($labels as $label){
-            $labelViewModels[] = BookViewModelMapper::prepareViewModel($label);
+        $bookViewModels = [];
+        foreach($books as $book){
+            $bookViewModels[] = self::prepareViewModel($book);
         }
-        return $labelViewModels;
+        return $bookViewModels;
     }
 }
