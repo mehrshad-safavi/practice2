@@ -5,4 +5,5 @@ use Modules\Book\Http\Controller\BookController;
 
 Route::prefix('v1/books')->group(function () {
     Route::post('/', [BookController::class, 'createBook']);
+    Route::get('/{id}', [BookController::class, 'getById']);
 });

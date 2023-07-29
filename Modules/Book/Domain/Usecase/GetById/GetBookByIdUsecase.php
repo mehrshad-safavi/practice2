@@ -2,27 +2,27 @@
 
 namespace Modules\Book\Domain\Usecase\GetById;
 
-use Modules\Book\Database\Persistence\LabelPersistence;
-use Modules\Book\Domain\Persistence\ILabelPersistence;
-use Modules\Book\Domain\Usecase\CreateBook\CreateLabelOutputModel;
-use Modules\Book\Domain\Validation\LabelValidation;
+use Modules\Book\Database\Persistence\BookPersistence;
+use Modules\Book\Domain\Persistence\IBookPersistence;
+use Modules\Book\Domain\Usecase\CreateBook\CreateBookOutputModel;
+use Modules\Book\Domain\Validation\BookValidation;
 
-class GetBookByIdUsecase implements IGetByIdUsecase
+class GetBookByIdUsecase implements IGetBookByIdUsecase
 {
-    private ILabelPersistence $labelPersistence;
-    private LabelValidation $labelValidation;
+    private IBookPersistence $labelPersistence;
+    private BookValidation $labelValidation;
 
-    public function __construct(LabelPersistence $labelPersistence, LabelValidation $labelValidation)
+    public function __construct(BookPersistence $labelPersistence, BookValidation $labelValidation)
     {
         $this->labelPersistence = $labelPersistence;
         $this->labelValidation = $labelValidation;
     }
 
-    public function execute(GetByIdInputModel $inputModel): CreateLabelOutputModel
+    public function execute(GetBookByIdInputModel $inputModel): CreateBookOutputModel
     {
         $label = $this->labelPersistence->findById($inputModel->id);
         $this->labelValidation->checkExists($label);
 
-        return new CreateLabelOutputModel($label);
+        return new CreateBookOutputModel($label);
     }
 }
