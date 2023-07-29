@@ -19,6 +19,5 @@ class GetAllBooksUsecase implements IGetAllBooksUsecase
         $labels = $this->labelPersistence->findAll();
 
         return new GetAllBooksOutputModel($labels);
-
     }
 }

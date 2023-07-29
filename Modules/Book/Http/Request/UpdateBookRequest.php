@@ -1,15 +1,16 @@
 <?php
 
-namespace Modules\Label\Http\Request;
+namespace Modules\Book\Http\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Book\Http\DTO\BookDTO;
 use Modules\Label\Domain\Rule\UniqueLabelTitleRule;
-use Modules\Book\Http\DTO\LabelDTO;
 
-class UpdateLabelRequest extends FormRequest
+class UpdateBookRequest extends FormRequest
 {
     const TITLE = 'title';
-    const COLOR = 'color';
+    const PUBLISHER = 'publisher';
+    const LABEL_ID = 'labelId';
 
     private UniqueLabelTitleRule $uniqueLabelTitleRule;
 
@@ -23,15 +24,17 @@ class UpdateLabelRequest extends FormRequest
     {
         return [
             self::TITLE => $this->getTitleRules(),
-            self::COLOR => $this->getColorRules(),
+            self::PUBLISHER => $this->getPublisherRules(),
+            self::LABEL_ID => $this->getLabelIdRules(),
         ];
     }
 
-    public function Data(): LabelDTO
+    public function Data(): BookDTO
     {
-        return new LabelDTO(
+        return new BookDTO(
             $this->input(self::TITLE),
-            $this->input(self::COLOR) ?? null,
+            $this->input(self::PUBLISHER),
+            $this->input(self::LABEL_ID),
         );
     }
 
@@ -41,8 +44,13 @@ class UpdateLabelRequest extends FormRequest
         return ['required', 'string', $this->uniqueLabelTitleRule];
     }
 
-    private function getColorRules(): array
+    private function getPublisherRules(): array
     {
-        return ['nullable', 'string'];
+        return ['required', 'string'];
+    }
+
+    private function getLabelIdRules(): array
+    {
+        return ['required', 'integer'];
     }
 }

@@ -13,23 +13,30 @@ use Modules\Book\Domain\Usecase\GetAllBooks\IGetAllBooksUsecase;
 use Modules\Book\Domain\Usecase\GetById\GetBookByIdInputModel;
 use Modules\Book\Domain\Usecase\GetById\GetBookByIdUsecase;
 use Modules\Book\Domain\Usecase\GetById\IGetBookByIdUsecase;
+use Modules\Book\Domain\Usecase\UpdateBook\IUpdateBookUsecase;
+use Modules\Book\Domain\Usecase\UpdateBook\UpdateBookInputModel;
+use Modules\Book\Domain\Usecase\UpdateBook\UpdateBookUsecase;
 use Modules\Book\Http\Request\CreateBookRequest;
+use Modules\Book\Http\Request\UpdateBookRequest;
 use Modules\Book\Http\ViewModelMapper\CreateBookViewModelMapper;
 use Modules\Book\Http\ViewModelMapper\GetAllBooksViewModelMapper;
 use Modules\Book\Http\ViewModelMapper\GetBookByIdViewModelMapper;
+use Modules\Book\Http\ViewModelMapper\UpdateBookViewModelMapper;
 
 class BookController extends Controller
 {
     private ICreateBookUsecase $createBookUsecase;
     private IGetBookByIdUsecase $getBookByIdUsecase;
     private IGetAllBooksUsecase $getAllBooksUsecase;
+    private IUpdateBookUsecase $updateBookUsecase;
 
     public function __construct(CreateBookUsecase $createBookUsecase, GetBookByIdUsecase $getBookByIdUsecase,
-                                GetAllBooksUsecase $getAllBooksUsecase )
+                                GetAllBooksUsecase $getAllBooksUsecase, UpdateBookUsecase $updateBookUsecase)
     {
         $this->createBookUsecase = $createBookUsecase;
         $this->getBookByIdUsecase = $getBookByIdUsecase;
         $this->getAllBooksUsecase = $getAllBooksUsecase;
+        $this->updateBookUsecase = $updateBookUsecase;
     }
 
     public function createBook(CreateBookRequest $request): JsonResponse
@@ -56,12 +63,12 @@ class BookController extends Controller
         return response()->json(GetAllBooksViewModelMapper::prepareViewModel($outputModel));
     }
 
-//    public function updateBook(UpdateBookRequest $request): JsonResponse
-//    {
-//        $dto = $request->Data();
-//        $inputModel = new UpdateBookInputModel($request->route('id'), $dto->title, $dto->color);
-//        $outputModel = $this->updateBookUsecase->execute($inputModel);
-//
-//        return response()->json(UpdateBookViewModelMapper::prepareViewModel($outputModel));
-//    }
+    public function updateBook(UpdateBookRequest $request): JsonResponse
+    {
+        $dto = $request->Data();
+        $inputModel = new UpdateBookInputModel($request->route('id'), $dto->title, $dto->publisher, $dto->labelId);
+        $outputModel = $this->updateBookUsecase->execute($inputModel);
+
+        return response()->json(UpdateBookViewModelMapper::prepareViewModel($outputModel));
+    }
 }
