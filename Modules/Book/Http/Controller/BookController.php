@@ -5,6 +5,7 @@ namespace Modules\Book\Http\Controller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Modules\Book\Domain\Usecase\CreateBook\CreateBookInputModel;
 use Modules\Book\Domain\Usecase\CreateBook\CreateBookUsecase;
 use Modules\Book\Domain\Usecase\CreateBook\ICreateBookUsecase;
@@ -39,6 +40,9 @@ class BookController extends Controller
         $this->updateBookUsecase = $updateBookUsecase;
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function createBook(CreateBookRequest $request): JsonResponse
     {
         $dto = $request->Data();

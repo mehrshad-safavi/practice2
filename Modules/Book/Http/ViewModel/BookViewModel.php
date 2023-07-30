@@ -2,6 +2,8 @@
 
 namespace Modules\Book\Http\ViewModel;
 
+use Modules\Label\Http\ViewModel\LabelViewModel;
+
 /**
  * @OA\Schema(required={"title"})
  */
@@ -27,15 +29,15 @@ class BookViewModel
 
     /**
      * @OA\Property
-     * @var int
+     * @var LabelViewModel
      */
-    public int $labelId;
+    public LabelViewModel $label;
 
-    public function __construct(int $id, string $title, string $publisher, int $labelId)
+    public function __construct(int $id, string $title, string $publisher, LabelViewModel $label)
     {
         $this->id = $id;
         $this->title = $title;
         $this->publisher = $publisher;
-        $this->labelId = $labelId;
+        $this->label = $label;
     }
 }

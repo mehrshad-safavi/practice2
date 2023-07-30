@@ -14,9 +14,15 @@ return new class extends Migration {
             $table->id();
             $table->string('title')->unique();
             $table->string('publisher')->nullable();
-            $table->foreignId('label_id')->constrained();
+            $table->unsignedBigInteger('label_id');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
+
+            $table->foreign('label_id')
+                ->references('id')
+                ->on('labels')
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 

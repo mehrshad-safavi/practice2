@@ -3,6 +3,7 @@
 namespace Modules\Book\Http\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Book\Domain\Rule\UniqueBookRule;
 use Modules\Book\Http\DTO\BookDTO;
 use Modules\Label\Domain\Rule\UniqueLabelTitleRule;
 
@@ -12,11 +13,11 @@ class UpdateBookRequest extends FormRequest
     const PUBLISHER = 'publisher';
     const LABEL_ID = 'labelId';
 
-    private UniqueLabelTitleRule $uniqueLabelTitleRule;
+    private UniqueBookRule $uniqueBookRule;
 
-    public function __construct(UniqueLabelTitleRule $uniqueTicketSubjectTitleRule)
+    public function __construct(UniqueBookRule $uniqueBookRule)
     {
-        $this->uniqueLabelTitleRule = $uniqueTicketSubjectTitleRule;
+        $this->uniqueBookRule = $uniqueBookRule;
         parent::__construct();
     }
 
@@ -40,8 +41,10 @@ class UpdateBookRequest extends FormRequest
 
     private function getTitleRules(): array
     {
-        $this->uniqueLabelTitleRule->setId($this->route('id'));
-        return ['required', 'string', $this->uniqueLabelTitleRule];
+        $this->uniqueBookRule->setId($this->route('id'));
+        $this->uniqueBookRule->setPublisher($this->input(self::PUBLISHER));
+
+        return ['required', 'string', $this->uniqueBookRule];
     }
 
     private function getPublisherRules(): array

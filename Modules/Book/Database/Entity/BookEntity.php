@@ -37,7 +37,7 @@ class BookEntity extends Model
 
     public function label(): BelongsTo
     {
-        return $this->belongsTo(LabelEntity::class, LabelEntity::ID, self::ID);
+        return $this->belongsTo(LabelEntity::class, self::LABEL_ID, LabelEntity::ID);
     }
 
     public function getLabel(): Model|null|LabelEntity
