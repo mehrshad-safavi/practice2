@@ -9,6 +9,9 @@ use Illuminate\Validation\ValidationException;
 use Modules\Book\Domain\Usecase\CreateBook\CreateBookInputModel;
 use Modules\Book\Domain\Usecase\CreateBook\CreateBookUsecase;
 use Modules\Book\Domain\Usecase\CreateBook\ICreateBookUsecase;
+use Modules\Book\Domain\Usecase\DeleteBook\DeleteBookInputModel;
+use Modules\Book\Domain\Usecase\DeleteBook\DeleteBookUsecase;
+use Modules\Book\Domain\Usecase\DeleteBook\IDeleteBookUsecase;
 use Modules\Book\Domain\Usecase\GetAllBooks\GetAllBooksUsecase;
 use Modules\Book\Domain\Usecase\GetAllBooks\IGetAllBooksUsecase;
 use Modules\Book\Domain\Usecase\GetById\GetBookByIdInputModel;
@@ -30,14 +33,17 @@ class BookController extends Controller
     private IGetBookByIdUsecase $getBookByIdUsecase;
     private IGetAllBooksUsecase $getAllBooksUsecase;
     private IUpdateBookUsecase $updateBookUsecase;
+    private IDeleteBookUsecase $deleteBookUsecase;
 
     public function __construct(CreateBookUsecase $createBookUsecase, GetBookByIdUsecase $getBookByIdUsecase,
-                                GetAllBooksUsecase $getAllBooksUsecase, UpdateBookUsecase $updateBookUsecase)
+                                GetAllBooksUsecase $getAllBooksUsecase, UpdateBookUsecase $updateBookUsecase,
+                                DeleteBookUsecase $deleteBookUsecase)
     {
         $this->createBookUsecase = $createBookUsecase;
         $this->getBookByIdUsecase = $getBookByIdUsecase;
         $this->getAllBooksUsecase = $getAllBooksUsecase;
         $this->updateBookUsecase = $updateBookUsecase;
+        $this->deleteBookUsecase = $deleteBookUsecase;
     }
 
     /**
@@ -67,6 +73,9 @@ class BookController extends Controller
         return response()->json(GetAllBooksViewModelMapper::prepareViewModel($outputModel));
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function updateBook(UpdateBookRequest $request): JsonResponse
     {
         $dto = $request->Data();
@@ -74,5 +83,13 @@ class BookController extends Controller
         $outputModel = $this->updateBookUsecase->execute($inputModel);
 
         return response()->json(UpdateBookViewModelMapper::prepareViewModel($outputModel));
+    }
+
+    public function deleteBook(Request $request): JsonResponse
+    {
+        $inputModel = new DeleteBookInputModel($request->route('id'));
+        $this->deleteBookUsecase->execute($inputModel);
+
+        return response()->json(['message' => 'success']);
     }
 }

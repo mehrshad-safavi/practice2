@@ -2,7 +2,7 @@
 
 namespace Modules\Label\Http\ViewModelMapper;
 
-use Modules\Book\Domain\Usecase\UpdateBook\UpdateLabelOutputModel;
+use Modules\Label\Domain\Usecase\UpdateLabel\UpdateLabelOutputModel;
 use Modules\Label\Http\ViewModel\LabelViewModel;
 
 class UpdateLabelViewModelMapper

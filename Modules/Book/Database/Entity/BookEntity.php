@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Label\Database\Entity\LabelEntity;
 
 /**
@@ -14,6 +15,8 @@ use Modules\Label\Database\Entity\LabelEntity;
  */
 class BookEntity extends Model
 {
+    use SoftDeletes;
+
     /******************** constants ********************/
     const TABLE_NAME = 'books';
 
@@ -21,6 +24,7 @@ class BookEntity extends Model
     const TITLE = 'title';
     const PUBLISHER = 'publisher';
     const LABEL_ID = 'label_id';
+    const DELETED_AT = 'deleted_at';
 
     /******************** table and its fields ********************/
     protected $table = self::TABLE_NAME;
@@ -95,5 +99,10 @@ class BookEntity extends Model
     public function getUpdatedAt(): DateTime
     {
         return $this->getAttribute(self::UPDATED_AT);
+    }
+
+    public function getDeletedAt(): DateTime
+    {
+        return $this->getAttribute(self::DELETED_AT);
     }
 }

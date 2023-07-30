@@ -5,6 +5,7 @@ namespace Modules\Label\Http\Controller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Modules\Label\Domain\Usecase\CreateLabel\CreateLabelInputModel;
 use Modules\Label\Domain\Usecase\CreateLabel\CreateLabelUsecase;
 use Modules\Label\Domain\Usecase\CreateLabel\ICreateLabelUsecase;
@@ -13,15 +14,15 @@ use Modules\Label\Domain\Usecase\GetAllLabels\IGetAllLabelsUsecase;
 use Modules\Label\Domain\Usecase\GetById\GetByIdInputModel;
 use Modules\Label\Domain\Usecase\GetById\GetByIdUsecase;
 use Modules\Label\Domain\Usecase\GetById\IGetByIdUsecase;
-use Modules\Book\Domain\Usecase\UpdateBook\IUpdateLabelUsecase;
-use Modules\Book\Domain\Usecase\UpdateBook\UpdateLabelInputModel;
-use Modules\Book\Domain\Usecase\UpdateBook\UpdateLabelUsecase;
-use Modules\Book\Http\Request\CreateLabelRequest;
-use Modules\Book\Http\Request\UpdateLabelRequest;
-use Modules\Book\Http\ViewModelMapper\CreateLabelViewModelMapper;
-use Modules\Book\Http\ViewModelMapper\GetAllLabelsViewModelMapper;
-use Modules\Book\Http\ViewModelMapper\GetByIdViewModelMapper;
-use Modules\Book\Http\ViewModelMapper\UpdateLabelViewModelMapper;
+use Modules\Label\Domain\Usecase\UpdateLabel\IUpdateLabelUsecase;
+use Modules\Label\Domain\Usecase\UpdateLabel\UpdateLabelInputModel;
+use Modules\Label\Domain\Usecase\UpdateLabel\UpdateLabelUsecase;
+use Modules\Label\Http\Request\CreateLabelRequest;
+use Modules\Label\Http\Request\UpdateLabelRequest;
+use Modules\Label\Http\ViewModelMapper\CreateLabelViewModelMapper;
+use Modules\Label\Http\ViewModelMapper\GetAllLabelsViewModelMapper;
+use Modules\Label\Http\ViewModelMapper\GetByIdViewModelMapper;
+use Modules\Label\Http\ViewModelMapper\UpdateLabelViewModelMapper;
 
 class LabelController extends Controller
 {
@@ -41,6 +42,9 @@ class LabelController extends Controller
         $this->updateLabelUsecase = $updateLabelUsecase;
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function createLabel(CreateLabelRequest $request): JsonResponse
     {
         $dto = $request->Data();
@@ -65,6 +69,9 @@ class LabelController extends Controller
         return response()->json(GetAllLabelsViewModelMapper::prepareViewModel($outputModel));
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function updateLabel(UpdateLabelRequest $request): JsonResponse
     {
         $dto = $request->Data();

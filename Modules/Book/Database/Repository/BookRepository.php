@@ -35,7 +35,7 @@ class BookRepository implements IBookRepository
     /** @return BookEntity[] */
     public function findAll(): array
     {
-        return (new BookEntity())
+        return (new BookEntity())::withoutTrashed()
             ->getModels();
     }
 }

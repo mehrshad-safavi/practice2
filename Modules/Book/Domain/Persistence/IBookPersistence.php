@@ -14,4 +14,6 @@ interface IBookPersistence
 
     /** @return Book[] */
     public function findAll(): array;
+
+    public function deleteById(int $id): void;
 }

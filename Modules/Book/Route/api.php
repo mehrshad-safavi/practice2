@@ -6,6 +6,9 @@ use Modules\Book\Http\Controller\BookController;
 Route::prefix('v1/books')->group(function () {
     Route::get('/all', [BookController::class, 'getAll']);
     Route::post('/', [BookController::class, 'createBook']);
-    Route::get('/{id}', [BookController::class, 'getById']);
-    Route::put('/{id}', [BookController::class, 'updateBook']);
+    Route::prefix('/{id}')->group(function () {
+        Route::get('', [BookController::class, 'getById']);
+        Route::put('', [BookController::class, 'updateBook']);
+        Route::delete('', [BookController::class, 'deleteBook']);
+    });
 });

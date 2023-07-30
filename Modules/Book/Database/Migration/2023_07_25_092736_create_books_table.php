@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('label_id');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
-
+            $table->softDeletes();
             $table->foreign('label_id')
                 ->references('id')
                 ->on('labels')

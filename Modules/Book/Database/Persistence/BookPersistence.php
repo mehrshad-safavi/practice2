@@ -55,4 +55,9 @@ class BookPersistence implements IBookPersistence
         return BookMapper::mapEntitiesToModels($bookEntities);
     }
 
+    public function deleteById(int $id): void
+    {
+        $bookEntity = $this->bookRepository->findById($id);
+        $bookEntity->delete();
+    }
 }
