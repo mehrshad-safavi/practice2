@@ -4,6 +4,7 @@ namespace Modules\Library\Database\Persistence;
 
 use Modules\Library\Database\Mapper\LibraryMapper;
 use Modules\Library\Database\Repository\ILibraryRepository;
+use Modules\Library\Database\Repository\LibraryRepository;
 use Modules\Library\Domain\Model\Library;
 use Modules\Library\Domain\Persistence\ILibraryPersistence;
 
@@ -11,7 +12,7 @@ class LibraryPersistence implements ILibraryPersistence
 {
     private ILibraryRepository $libraryRepository;
 
-    public function __construct(ILibraryRepository $libraryRepository)
+    public function __construct(LibraryRepository $libraryRepository)
     {
         $this->libraryRepository = $libraryRepository;
     }

@@ -19,10 +19,10 @@ use Modules\Label\Domain\Usecase\UpdateLabel\UpdateLabelInputModel;
 use Modules\Label\Domain\Usecase\UpdateLabel\UpdateLabelUsecase;
 use Modules\Label\Http\Request\CreateLabelRequest;
 use Modules\Label\Http\Request\UpdateLabelRequest;
-use Modules\Label\Http\ViewModelMapper\CreateLabelViewModelMapper;
-use Modules\Label\Http\ViewModelMapper\GetAllLabelsViewModelMapper;
-use Modules\Label\Http\ViewModelMapper\GetByIdViewModelMapper;
-use Modules\Label\Http\ViewModelMapper\UpdateLabelViewModelMapper;
+use Modules\Library\Http\ViewModelMapper\CreateLabelViewModelMapper;
+use Modules\Library\Http\ViewModelMapper\GetAllLabelsViewModelMapper;
+use Modules\Library\Http\ViewModelMapper\GetByIdViewModelMapper;
+use Modules\Library\Http\ViewModelMapper\UpdateLabelViewModelMapper;
 
 class LabelController extends Controller
 {

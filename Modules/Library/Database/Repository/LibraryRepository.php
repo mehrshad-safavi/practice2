@@ -13,12 +13,12 @@ class LibraryRepository implements ILibraryRepository
         // TODO: Implement store() method.
     }
 
-    public function findByID(int $id): LibraryEntity
+    public function findByID(int $id): ?LibraryEntity
     {
-        return LibraryEntity::where('id', $id)->first();
+        return LibraryEntity::where(LibraryEntity::ID, $id)->first();
     }
 
-    public function fidByTitle(string $title): LibraryEntity
+    public function fidByTitle(string $title): ?LibraryEntity
     {
         // TODO: Implement fidByTitle() method.
     }

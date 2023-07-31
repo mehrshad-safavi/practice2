@@ -15,7 +15,7 @@ class BookRepository implements IBookRepository
     public function findById(int $id): ?BookEntity
     {
         return (new BookEntity())
-            ->find($id);
+            ->where(BookEntity::ID, $id)->first();
     }
 
     public function findByTitle(string $title): ?BookEntity

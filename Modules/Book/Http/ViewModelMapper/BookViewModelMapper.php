@@ -4,7 +4,7 @@ namespace Modules\Book\Http\ViewModelMapper;
 
 use Modules\Book\Domain\Model\Book;
 use Modules\Book\Http\ViewModel\BookViewModel;
-use Modules\Label\Http\ViewModelMapper\LabelViewModelMapper;
+use Modules\Library\Http\ViewModelMapper\LabelViewModelMapper;
 
 class BookViewModelMapper
 {

@@ -5,6 +5,10 @@ namespace Modules\Library\Database\Entity;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Book\Database\Entity\BookEntity;
+use Modules\Label\Database\Entity\LabelEntity;
 
 /**
  * @mixin Builder
@@ -13,7 +17,7 @@ class LibraryEntity extends Model
 {
     /******************** constants ********************/
     const ID = 'id';
-    const TITLE = 'title';
+    const TITLE = 'name';
 
     /******************** table and its fields ********************/
     protected $table = 'libraries';
@@ -23,6 +27,20 @@ class LibraryEntity extends Model
     ];
 
     protected $casts = [];
+
+    /********************* relations ******************/
+
+    public function book(): BelongsToMany
+    {
+        return $this->belongsToMany(BookEntity::class,
+            LibraryBookEntity::TABLE_NAME,
+            LibraryBookEntity::BOOK_ID, BookEntity::ID);
+    }
+
+    public function getLibrary(): Model|null|LabelEntity
+    {
+        return $this->library()->first();
+    }
 
     /******************** setters ********************/
 
