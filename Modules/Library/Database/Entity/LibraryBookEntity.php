@@ -35,19 +35,19 @@ class LibraryBookEntity extends Model
         return $this->belongsTo(BookEntity::class, self::BOOK_ID, BookEntity::ID);
     }
 
-    public function getBook(): belongsTo
+    public function getBook(): null|Model|BookEntity
     {
         return $this->book()->first();
     }
 
     public function library(): belongsTo
     {
-        return $this->belongsTo(BookEntity::class, self::BOOK_ID, BookEntity::ID);
+        return $this->belongsTo(LibraryEntity::class, self::LIBRARY_ID, LibraryEntity::ID);
     }
 
-    public function getLibrary(): belongsTo
+    public function getLibrary(): null|Model|LibraryEntity
     {
-        return $this->book()->first();
+        return $this->library()->first();
     }
 
     /******************** setters ********************/

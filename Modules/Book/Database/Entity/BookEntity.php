@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Label\Database\Entity\LabelEntity;
 use Modules\Library\Database\Entity\LibraryBookEntity;
@@ -60,7 +59,7 @@ class BookEntity extends Model
             'library_id');
     }
 
-    public function getLibrary(): Model|null|LabelEntity
+    public function getLibrary(): Model|null|LibraryEntity
     {
         return $this->library()->first();
     }

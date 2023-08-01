@@ -2,33 +2,26 @@
 
 namespace Modules\Library\Database\Repository;
 
-use Modules\Label\Database\Entity\LabelEntity;
 use Modules\Library\Database\Entity\LibraryBookEntity;
-use Modules\Library\Domain\Model\LibraryBook;
 
 class LibraryBookRepository implements ILibraryBookRepository
 {
     public function store(LibraryBookEntity $libraryBookEntity): LibraryBookEntity
     {
         return (new LibraryBookEntity())
-            ->updateOrCreate([
-            LibraryBookEntity::LIBRARY_ID => $libraryBookEntity->getLibraryId(),
-            LibraryBookEntity::BOOK_ID => $libraryBookEntity->getBookId()]);
+            ->updateOrCreate([LibraryBookEntity::ID => $libraryBookEntity->getId(), $libraryBookEntity->getAttributes()]);
     }
 
-    public function findByID(int $id): LibraryBookEntity
+    public function findByBookAndLibrary(int $bookId, int $libraryId): ?LibraryBookEntity
     {
-        return LibraryBookEntity::where(LibraryBookEntity::ID, $id)->first();
+        return (new LibraryBookEntity)
+            ->where(LibraryBookEntity::LIBRARY_ID, $libraryId)
+            ->where(LibraryBookEntity::BOOK_ID, $bookId)->first();
     }
 
-    public function fidByTitle(string $title): LibraryBookEntity
+    public function findById(int $id): LibraryBookEntity
     {
-        // TODO: Implement fidByTitle() method.
-    }
-
-    /** @return LabelEntity[] */
-    public function fidAll(): array
-    {
-        // TODO: Implement fidAll() method.
+        return (new LibraryBookEntity)
+            ->where(LibraryBookEntity::ID, $id)->first();
     }
 }

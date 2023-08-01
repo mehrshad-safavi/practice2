@@ -2,13 +2,13 @@
 
 namespace Modules\Book\Database\Persistence;
 
-use Illuminate\Database\Eloquent\Model;
 use Modules\Book\Database\Mapper\BookMapper;
 use Modules\Book\Database\Repository\BookRepository;
 use Modules\Book\Database\Repository\IBookRepository;
 use Modules\Book\Domain\Model\Book;
 use Modules\Book\Domain\Persistence\IBookPersistence;
-use Modules\Label\Database\Entity\LabelEntity;
+use Modules\Library\Database\Mapper\LibraryMapper;
+use Modules\Library\Domain\Model\Library;
 
 class BookPersistence implements IBookPersistence
 {
@@ -63,9 +63,9 @@ class BookPersistence implements IBookPersistence
         $bookEntity->delete();
     }
 
-    public function getLibraryById(int $id): Model|null|LabelEntity
+    public function getLibraryByBookId(int $bookId): ?Library
     {
-        $bookEntity = $this->bookRepository->findById($id);
-        return $bookEntity ? $bookEntity->getLibrary(): $bookEntity;
+        $bookEntity = $this->bookRepository->findById($bookId);
+        return LibraryMapper::mapEntityToModel($bookEntity->getLibrary());
     }
 }

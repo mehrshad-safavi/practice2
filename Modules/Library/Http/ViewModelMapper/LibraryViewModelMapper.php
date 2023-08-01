@@ -2,7 +2,6 @@
 
 namespace Modules\Library\Http\ViewModelMapper;
 
-use Modules\Book\Database\Mapper\BookMapper;
 use Modules\Book\Http\ViewModelMapper\BookViewModelMapper;
 use Modules\Library\Domain\Usecase\getById\GetLibraryByIdLibraryOutputModel;
 use Modules\Library\Http\ViewModel\LibraryViewModel;

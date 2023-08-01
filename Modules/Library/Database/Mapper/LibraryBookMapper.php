@@ -2,8 +2,8 @@
 
 namespace Modules\Library\Database\Mapper;
 
+use Modules\Book\Database\Mapper\BookMapper;
 use Modules\Library\Database\Entity\LibraryBookEntity;
-use Modules\Library\Domain\Model\Library;
 use Modules\Library\Domain\Model\LibraryBook;
 
 class LibraryBookMapper
@@ -11,24 +11,26 @@ class LibraryBookMapper
 
     public static function mapModelToEntity(LibraryBook $libraryBook): LibraryBookEntity
     {
-        $libraryEntity = new LibraryBookEntity();
+        $libraryBookEntity = new LibraryBookEntity();
         if ($libraryBook->getId()){
-            $libraryEntity->setId($libraryBook->getId());
+            $libraryBookEntity->setId($libraryBook->getId());
         }
-        $libraryEntity->setBookId($libraryBook->getBook()->getId());
-        $libraryEntity->setLibraryId($libraryBook->getLibrary()->getId());
-        return $libraryEntity;
+        $libraryBookEntity->setBookId($libraryBook->getBook()->getId());
+        $libraryBookEntity->setLibraryId($libraryBook->getLibrary()->getId());
+
+        return $libraryBookEntity;
     }
 
-    public static function mapEntityToModel(LibraryBookEntity $libraryEntity): Library
+    public static function mapEntityToModel(LibraryBookEntity $libraryBookEntity): LibraryBook
     {
-        $library = new Library();
-        $library->setId($libraryEntity->getId());
-        $library->setTitle($libraryEntity->getTitle());
-        $library->setCreatedAt($libraryEntity->getCreatedAt());
-        $library->setUpdatedAt($libraryEntity->getUpdatedAt());
+        $libraryBook = new LibraryBook();
+        $libraryBook->setId($libraryBookEntity->getId());
+        $libraryBook->setLibrary(LibraryMapper::mapEntityToModel($libraryBookEntity->getLibrary()));
+        $libraryBook->setBook(BookMapper::mapEntityToModel($libraryBookEntity->getBook()));
+        $libraryBook->setCreatedAt($libraryBookEntity->getCreatedAt());
+        $libraryBook->setUpdatedAt($libraryBookEntity->getUpdatedAt());
 
-        return $library;
+        return $libraryBook;
     }
 
 }

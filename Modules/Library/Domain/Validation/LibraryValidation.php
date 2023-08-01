@@ -3,19 +3,19 @@
 namespace Modules\Library\Domain\Validation;
 
 use Exception;
-use Modules\Book\Database\Persistence\BookPersistence;
-use Modules\Library\Database\Persistence\LibraryBookPersistence;
+use Modules\Book\Domain\Service\BookService;
+use Modules\Book\Domain\Service\IBookService;
 use Modules\Library\Domain\Model\Library;
-use Modules\Library\Domain\Persistence\ILibraryBookPersistence;
+use Modules\Library\Domain\Model\LibraryBook;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class LibraryValidation
 {
-    private BookPersistence $bookPersistence;
+    private IBookService $bookService;
 
-    public function __construct(BookPersistence $bookPersistence)
+    public function __construct(BookService $bookService)
     {
-        $this->bookPersistence = $bookPersistence;
+        $this->bookService = $bookService;
     }
 
     public function checkExists(?Library $library): void
@@ -25,13 +25,19 @@ class LibraryValidation
         }
     }
 
+    public function checkExistsBookInLibrary(?LibraryBook $libraryBook): void
+    {
+        if (!$libraryBook) {
+            throw new NotFoundHttpException("not found!");
+        }
+    }
 
     /**
      * @throws Exception
      */
-    public function checkUniqueBookInLibrary(int $bookId): void
+    public function checkInuseBooK(int $bookId): void
     {
-        if($this->bookPersistence->getLibraryById($bookId)){
+        if($this->bookService->inuseBook($bookId)){
             throw new Exception('This book exists in another library!');
         }
     }

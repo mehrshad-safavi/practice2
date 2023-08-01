@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Library\Domain\Usecase\addBook;
+namespace Modules\Library\Domain\Usecase\removeBook;
 
-class LibraryBookInputModel
+class RemoveBookInputModel
 {
     public int $bookId;
     public int $libraryId;

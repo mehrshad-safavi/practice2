@@ -8,10 +8,7 @@ interface ILibraryBookPersistence
 {
     public function store(LibraryBook $libraryBook): LibraryBook;
 
-    public function findById(int $id): ?LibraryBook;
+    public function findByBookAndLibrary(int $bookId, int $libraryId): ?LibraryBook;
 
-    public function findByTitle(string $title): ?LibraryBook;
-
-    /** LibraryBook[] */
-    public function findAll(): array;
+    public function deleteById(int $id): void;
 }

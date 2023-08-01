@@ -2,8 +2,6 @@
 
 namespace Modules\Library\Domain\Usecase\getById;
 
-use Modules\Book\Domain\Model\Book;
-
 class GetLibraryByIdLibraryInputModel
 {
     public int $libraryId;

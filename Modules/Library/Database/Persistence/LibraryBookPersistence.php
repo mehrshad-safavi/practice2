@@ -21,23 +21,20 @@ class LibraryBookPersistence implements ILibraryBookPersistence
     {
         $libraryBookEntity = LibraryBookMapper::mapModelToEntity($libraryBook);
         $this->libraryBookRepository->store($libraryBookEntity);
+
         return $libraryBook;
     }
 
-    public function findById(int $id): ?LibraryBook
+    public function findByBookAndLibrary(int $bookId, int $libraryId): ?LibraryBook
     {
-//        $libraryEntity = $this->libraryBookRepository->findByID($id);
-//        return LibraryBookMapper::mapEntityToModel($libraryEntity);
+        $libraryEntity = $this->libraryBookRepository->findByBookAndLibrary($bookId, $libraryId);
+
+        return $libraryEntity ? LibraryBookMapper::mapEntityToModel($libraryEntity) : null;
     }
 
-    public function findByTitle(string $title): ?LibraryBook
+    public function deleteById(int $id): void
     {
-        // TODO: Implement findByTitle() method.
-    }
-
-    /** Library[] */
-    public function findAll(): array
-    {
-        // TODO: Implement findAll() method.
+        $libraryEntity = $this->libraryBookRepository->findById($id);
+        $libraryEntity->delete();
     }
 }

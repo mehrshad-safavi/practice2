@@ -4,10 +4,14 @@ namespace Modules\Book\Domain\Usecase\DeleteBook;
 
 class DeleteBookInputModel
 {
-    public int $id;
+    public int $bookId;
+    public int $libraryId;
 
-    public function __construct(int $id)
+    public function __construct(int $bookId, int $libraryId)
     {
-        $this->id = $id;
+        $this->bookId = $bookId;
+        $this->libraryId = $libraryId;
     }
+
+
 }
