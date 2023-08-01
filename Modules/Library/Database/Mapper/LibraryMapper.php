@@ -2,6 +2,7 @@
 
 namespace Modules\Library\Database\Mapper;
 
+use Modules\Book\Database\Mapper\BookMapper;
 use Modules\Library\Database\Entity\LibraryEntity;
 use Modules\Library\Domain\Model\Library;
 
@@ -23,6 +24,7 @@ class LibraryMapper
         $library = new Library();
         $library->setId($libraryEntity->getId());
         $library->setTitle($libraryEntity->getTitle());
+        $library->setBooks(BookMapper::mapEntitiesToModels($libraryEntity->getBooks()));
         $library->setCreatedAt($libraryEntity->getCreatedAt());
         $library->setUpdatedAt($libraryEntity->getUpdatedAt());
 

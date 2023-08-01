@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use Modules\Book\Database\Entity\BookEntity;
 use Modules\Label\Database\Entity\LabelEntity;
 
@@ -30,16 +31,17 @@ class LibraryEntity extends Model
 
     /********************* relations ******************/
 
-    public function book(): BelongsToMany
+    public function books(): BelongsToMany
     {
         return $this->belongsToMany(BookEntity::class,
             LibraryBookEntity::TABLE_NAME,
             LibraryBookEntity::BOOK_ID, BookEntity::ID);
     }
 
-    public function getLibrary(): Model|null|LabelEntity
+    /** BookEntity[] */
+    public function getBooks(): null|array
     {
-        return $this->library()->first();
+        return $this->books()->getModels();
     }
 
     /******************** setters ********************/

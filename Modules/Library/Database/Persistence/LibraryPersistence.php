@@ -25,7 +25,7 @@ class LibraryPersistence implements ILibraryPersistence
     public function findById(int $id): ?Library
     {
         $libraryEntity = $this->libraryRepository->findByID($id);
-        return LibraryMapper::mapEntityToModel($libraryEntity);
+        return $libraryEntity ? LibraryMapper::mapEntityToModel($libraryEntity) : null;
     }
 
     public function findByTitle(string $title): ?Library
