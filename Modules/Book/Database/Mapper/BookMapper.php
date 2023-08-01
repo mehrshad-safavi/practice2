@@ -35,14 +35,14 @@ class BookMapper
     }
 
     /**
-     * @param BookEntity[] $labelEntities
+     * @param BookEntity[] $bookEntities
      * @return Book[]
      */
-    public static function mapEntitiesToModels(array $labelEntities): array
+    public static function mapEntitiesToModels(array $bookEntities): array
     {
         $labels = [];
-        foreach ($labelEntities as $labelEntity) {
-            $labels[] = self::mapEntityToModel($labelEntity);
+        foreach ($bookEntities as $bookEntity) {
+            $labels[] = self::mapEntityToModel($bookEntity);
         }
 
         return $labels;

@@ -66,6 +66,6 @@ class BookPersistence implements IBookPersistence
     public function getLibraryById(int $id): Model|null|LabelEntity
     {
         $bookEntity = $this->bookRepository->findById($id);
-        return $bookEntity->getLibrary();
+        return $bookEntity ? $bookEntity->getLibrary(): $bookEntity;
     }
 }
